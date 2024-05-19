@@ -1,6 +1,7 @@
 import redis
 import json
 import urllib3
+from datetime import datetime
 
 # Initializing the redis instance
 r = redis.Redis(
