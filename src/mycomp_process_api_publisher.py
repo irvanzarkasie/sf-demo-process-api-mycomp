@@ -47,7 +47,7 @@ class MyCompProcApi(Resource):
       req_payload = {
         "correlation_id": correlation_id,
         "msg_timestamp": msg_ts,
-        "transport_type": transport_type,
+        "transport_code": transport_type,
         "departure_code": departure_code,
         "destination_code": destination_code 
       }
