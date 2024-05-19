@@ -13,6 +13,7 @@ import urllib3
 import redis
 
 app = Flask(__name__)
+api = Api(app)
 
 # CONSTANTS
 api_host = socket.gethostname()
