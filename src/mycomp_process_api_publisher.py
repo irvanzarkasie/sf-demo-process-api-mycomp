@@ -73,7 +73,7 @@ class MyCompProcApi(Resource):
           easycomego_resp = r.get(easycomego_corr_id)
         # end if
 
-        print("BUS2U Response: {b2u_resp}".format(b2u_resp))
+        print("BUS2U Response: {b2u_resp}".format(b2u_resp=b2u_resp))
         print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
 
         # Eagerly exit poll if responses are already populated
@@ -125,7 +125,7 @@ class MyCompProcApiDefault(Resource):
           easycomego_resp = r.get(easycomego_corr_id)
         # end if
 
-        print("BUS2U Response: {b2u_resp}".format(b2u_resp))
+        print("BUS2U Response: {b2u_resp}".format(b2u_resp=b2u_resp))
         print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
 
         # Eagerly exit poll if responses are already populated
