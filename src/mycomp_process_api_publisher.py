@@ -46,7 +46,7 @@ class MyCompProcApi(Resource):
         "destination_code": destination_code 
       }
 
-      r.publish(COMM_CHANNEL, req_payload)
+      r.publish(COMM_CHANNEL, json.dumps(req_payload))
 
       return jsonify({})
     # end def
@@ -65,7 +65,7 @@ class MyCompProcApiDefault(Resource):
         "destination_code": destination_code 
       }
 
-      r.publish(COMM_CHANNEL, req_payload)
+      r.publish(COMM_CHANNEL, json.dumps(req_payload))
 
       return jsonify({})
     # end def
