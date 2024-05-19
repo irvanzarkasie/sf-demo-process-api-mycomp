@@ -51,6 +51,6 @@ for message in subchannel.listen():
         "req_ts": req_msg_ts,
         "resp_ts": resp_ts
     }
-    r.hset(store_corr_id, store_payload)
+    r.set(store_corr_id, json.dumps(store_payload))
 
 # end for
