@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import os
 import urllib3
 import redis
+import uuid
 
 app = Flask(__name__)
 api = Api(app)
@@ -40,7 +41,12 @@ class MyCompProcApi(Resource):
       departure_code = args.get("departureCode", None)
       destination_code = args.get("destinationCode", None)
 
+      correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
+      msg_ts = int(datetime.now().timestamp())
+
       req_payload = {
+        "correlation_id": correlation_id,
+        "msg_timestamp": msg_td,
         "transport_type": transport_type,
         "departure_code": departure_code,
         "destination_code": destination_code 
@@ -59,7 +65,12 @@ class MyCompProcApiDefault(Resource):
       departure_code = args.get("departureCode", None)
       destination_code = args.get("destinationCode", None)
 
+      correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
+      msg_ts = int(datetime.now().timestamp())
+
       req_payload = {
+        "correlation_id": correlation_id,
+        "msg_timestamp": msg_td,
         "transport_type": None,
         "departure_code": departure_code,
         "destination_code": destination_code 
