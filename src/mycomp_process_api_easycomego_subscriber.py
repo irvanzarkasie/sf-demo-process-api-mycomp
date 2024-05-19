@@ -20,7 +20,7 @@ subchannel = r.pubsub()
 subchannel.subscribe(COMM_CHANNEL)
 for message in subchannel.listen():
     print(message)
-    req_payload = json.loads(message)
+    req_payload = message
     req_corr_id = req_payload.get("correlation_id", "")
     req_msg_ts = req_payload.get("msg_ts", "")
     req_transport_code = req_payload.get("transport_code", "")
