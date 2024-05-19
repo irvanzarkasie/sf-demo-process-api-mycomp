@@ -109,6 +109,34 @@ class MyCompProcApiDefault(Resource):
 
       r.publish(COMM_CHANNEL, json.dumps(req_payload))
 
+      # Poll response from backend
+      curr_ts = int(datetime.now().timestamp() * 1000)
+      b2u_corr_id = "{correlation_id}_B2U".format(correlation_id=correlation_id)
+      easycomego_corr_id = "{correlation_id}_EASYCOMEGO".format(correlation_id=correlation_id)
+      b2u_resp = ""
+      easycomego_resp = ""
+      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp == "" and easycomego_resp == "":
+        print("Polling response from backend...")
+
+        if b2u_resp == "":
+          b2u_resp = r.get(b2u_corr_id)
+        # end if
+        if easycomego_resp == "":
+          easycomego_resp = r.get(easycomego_corr_id)
+        # end if
+
+        print("BUS2U Response: {b2u_resp}".format(b2u_resp))
+        print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
+
+        # Eagerly exit poll if responses are already populated
+        if b2u_resp == "" and easycomego_resp == "":
+          break
+        # end if
+
+        # Backoff before polling again
+        sleep(BACKOFF_MS/1000)
+      # end while
+
       return jsonify({})
     # end def
 # end class
