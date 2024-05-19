@@ -22,10 +22,10 @@ subchannel.subscribe(COMM_CHANNEL)
 for message in subchannel.listen():
     print(message)
     req_payload = message
-    req_corr_id = req_payload.get("correlation_id", "")
-    req_msg_ts = req_payload.get("msg_ts", "")
-    req_departure_code = req_payload.get("departure_code", "")
-    req_destination_code = req_payload.get("destination_code", "")
+    req_corr_id = req_payload.get("data", {}).get("correlation_id", "")
+    req_msg_ts = req_payload.get("data", {}).get("msg_ts", "")
+    req_departure_code = req_payload.get("data", {}).get("departure_code", "")
+    req_destination_code = req_payload.get("data", {}).get("destination_code", "")
 
     base_req_url = "http://168.119.225.15:35020/sys/b2u/booking/routes"
     if req_departure_code != "" and req_destination_code != "":
