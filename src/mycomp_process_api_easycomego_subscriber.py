@@ -61,10 +61,10 @@ for message in subchannel.listen():
     store_corr_id = "{req_correlation_id}_{backendid}".format(req_correlation_id=req_corr_id, backendid=BACKENDID)
     store_payload = {
         "correlation_id": store_corr_id,
-        "resp_payload": resp_payload,
+        "resp_payload": json.dumps(resp_payload),
         "req_ts": req_msg_ts,
         "resp_ts": resp_ts
     }
-    r.hset(store_corr_id, json.dumps(store_payload))
+    r.hset(store_corr_id, store_payload)
 
 # end for
