@@ -334,7 +334,7 @@ class MyCompProcApi(Resource):
 
       end_timestamp = datetime.now()
       duration = int((end_timestamp - start_timestamp).total_seconds() * 1000)
-      logResponse(response, rqid=correlation_id, message="Return response", duration=duration, rqtimestamp=start_timestamp, request=request, level="INFO", status_code=200)
+      logResponse(json.dumps(resp_list), rqid=correlation_id, message="Return response", duration=duration, rqtimestamp=start_timestamp, request=request, level="INFO", status_code=200)
       return jsonify(resp_list)
     # end def
 # end class
@@ -482,7 +482,7 @@ class MyCompProcApiDefault(Resource):
 
       end_timestamp = datetime.now()
       duration = int((end_timestamp - start_timestamp).total_seconds() * 1000)
-      logResponse(response, rqid=correlation_id, message="Return response", duration=duration, rqtimestamp=start_timestamp, request=request, level="INFO", status_code=200)
+      logResponse(json.dumps(resp_list), rqid=correlation_id, message="Return response", duration=duration, rqtimestamp=start_timestamp, request=request, level="INFO", status_code=200)
       return jsonify(resp_list)
     # end def
 # end class
