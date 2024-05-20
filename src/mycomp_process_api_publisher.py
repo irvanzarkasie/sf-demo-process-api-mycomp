@@ -57,6 +57,13 @@ DEPDESTCODEMAP = {
   }
 }
 
+DEPDESTCODEMAPREVERSE = {
+    "PRTKLG-MY": "MY-01",
+    "BUKL-MY": "MY-02",
+    "HARBOUR-SG": "SG-01",
+    "BEU-SG": "SG-02"
+}
+
 # Hash map for transport type code
 TRANSTYPECODEMAP = {
    "9001": {
@@ -85,8 +92,8 @@ class MyCompProcApi(Resource):
     def get(self, transport_type):
       # Parse arguments
       args = request.args
-      departure_code = args.get("departureCode", None)
-      destination_code = args.get("destinationCode", None)
+      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), None)
+      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), None)
 
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
@@ -213,8 +220,8 @@ class MyCompProcApiDefault(Resource):
     def get(self):
       # Parse arguments
       args = request.args
-      departure_code = args.get("departureCode", None)
-      destination_code = args.get("destinationCode", None)
+      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), None)
+      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), None)
 
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
