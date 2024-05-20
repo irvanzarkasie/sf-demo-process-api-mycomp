@@ -203,8 +203,7 @@ class MyCompProcApi(Resource):
       #   ]
       # }
       
-      resp_list = []
-
+      b2u_resp_list = []
       # BUS2U TRANSFORMATION
       for route in b2u_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
@@ -213,7 +212,7 @@ class MyCompProcApi(Resource):
         mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
         mapped_trans_code = "ECOM-B1"
         mapped_trans_desc = "BUS"
-        resp_list.append({
+        b2u_resp_list.append({
             "transportType": mapped_trans_code,
             "routes": [
                 {
@@ -230,6 +229,7 @@ class MyCompProcApi(Resource):
         })
       # end for
 
+      easy_resp_list = []
       # EASYCOMEASYGO TRANSFORMATION
       for route in easycomego_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
@@ -238,7 +238,7 @@ class MyCompProcApi(Resource):
         mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
         mapped_trans_code = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("code", "")
         mapped_trans_desc = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("desc", "")
-        resp_list.append({
+        easy_resp_list.append({
             "transportType": mapped_trans_code,
             "routes": [
                 {
@@ -255,6 +255,10 @@ class MyCompProcApi(Resource):
         })
       # end for
 
+      resp_list = [
+        {"transportProvider": "T-001", "routes": easy_resp_list},
+        {"transportProvider": "T-002", "routes": b2u_resp_list},
+      ]
 
       return jsonify(resp_list)
     # end def
@@ -341,8 +345,7 @@ class MyCompProcApiDefault(Resource):
       #   ]
       # }
       
-      resp_list = []
-
+      b2u_resp_list = []
       # BUS2U TRANSFORMATION
       for route in b2u_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
@@ -351,7 +354,7 @@ class MyCompProcApiDefault(Resource):
         mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
         mapped_trans_code = "ECOM-B1"
         mapped_trans_desc = "BUS"
-        resp_list.append({
+        b2u_resp_list.append({
             "transportType": mapped_trans_code,
             "routes": [
                 {
@@ -368,6 +371,7 @@ class MyCompProcApiDefault(Resource):
         })
       # end for
 
+      easy_resp_list = []
       # EASYCOMEASYGO TRANSFORMATION
       for route in easycomego_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
@@ -376,7 +380,7 @@ class MyCompProcApiDefault(Resource):
         mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
         mapped_trans_code = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("code", "")
         mapped_trans_desc = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("desc", "")
-        resp_list.append({
+        easy_resp_list.append({
             "transportType": mapped_trans_code,
             "routes": [
                 {
@@ -393,6 +397,10 @@ class MyCompProcApiDefault(Resource):
         })
       # end for
 
+      resp_list = [
+        {"transportProvider": "T-001", "routes": easy_resp_list},
+        {"transportProvider": "T-002", "routes": b2u_resp_list},
+      ]
 
       return jsonify(resp_list)
     # end def
