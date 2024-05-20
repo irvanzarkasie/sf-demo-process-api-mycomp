@@ -24,7 +24,7 @@ for message in subchannel.listen():
     if isinstance(message.get("data", ""), str):
         req_payload = json.loads(message.get("data", ""))
         req_corr_id = req_payload.get("correlation_id", "")
-        req_msg_ts = req_payload.get("msg_ts", "")
+        req_msg_ts = req_payload.get("msg_timestamp", "")
         req_departure_code = req_payload.get("departure_code", "")
         req_destination_code = req_payload.get("destination_code", "")
 

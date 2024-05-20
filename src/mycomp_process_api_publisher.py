@@ -37,6 +37,50 @@ r = redis.Redis(
 )
 COMM_CHANNEL = "mycomp-get-routes-req-channel"
 
+# Hash map for departure/destination code
+DEPDESTCODEMAP = {
+  "MY-01": {
+    "code": "PRTKLG-MY",
+    "desc": "Port Klang Malaysia"
+  }
+  "MY-02": {
+    "code": "BUKL-MY",
+    "desc": "Bandar Utama KL Malaysia"
+  },
+  "SG-01": {
+    "code": "HARBOUR-SG",
+    "desc": "Harbourfront Centre Singapore"
+  },
+  "SG-02": {
+    "code": "BEU-SG",
+    "desc": "Buena Vista singapore"
+  }
+}
+
+# Hash map for transport type code
+TRANSTYPECODEMAP = {
+   "9001": {
+      "code": "ECOM-B1", 
+      "desc": "BUS"
+   },
+   "9002": {
+      "code": "ECOM-SH",
+      "desc": "SHIP"
+   },
+   "9003": {
+      "code": "ECOM-VN",
+      "desc": "VAN"
+   },
+   "9004": {
+      "code": "ECOM-MPV",
+      "desc": "MPV"
+   },
+   "9005": {
+      "code": "ECOM-TAXI",
+      "desc": "Executive Taxi"
+   }
+}
+
 class MyCompProcApi(Resource):
     def get(self, transport_type):
       # Parse arguments
@@ -85,7 +129,82 @@ class MyCompProcApi(Resource):
         sleep(BACKOFF_MS/1000)
       # end while
 
-      return jsonify({})
+      b2u_resp_dict = json.loads(b2u_resp)
+      b2u_resp_payload = json.loads(b2u_resp_dict.get(resp_payload, ""))
+
+      easycomego_resp_dict = json.loads(easycomego_resp)
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get(resp_payload, ""))
+
+      # {
+      #   "transportType": "",
+      #   "routes": [
+      #       {
+      #           "departureCode": "",
+      #           "departureDescription": "",
+      #           "destinations": [
+      #               {
+      #                   "destinationCode": "",
+      #                   "destinationDescription": ""
+      #               }
+      #           ]
+      #       }
+      #   ]
+      # }
+      
+      resp_list = []
+
+      # BUS2U TRANSFORMATION
+      for route in b2u_resp_payload:
+        mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
+        mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
+        mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
+        mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
+        mapped_trans_code = "ECOM-B1"
+        mapped_trans_desc = "BUS"
+        resp_list.append({
+            "transportType": mapped_trans_code,
+            "routes": [
+                {
+                    "departureCode": mapped_dep_code,
+                    "departureDescription": mapped_dep_desc,
+                    "destinations": [
+                        {
+                            "destinationCode": mapped_dest_code,
+                            "destinationDescription": mapped_dest_desc
+                        }
+                    ]
+                }
+            ]
+        })
+      # end for
+
+      # EASYCOMEASYGO TRANSFORMATION
+      for route in b2u_resp_payload:
+        mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
+        mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
+        mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
+        mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
+        mapped_trans_code = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("code", "")
+        mapped_trans_desc = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("desc", "")
+        resp_list.append({
+            "transportType": mapped_trans_code,
+            "routes": [
+                {
+                    "departureCode": mapped_dep_code,
+                    "departureDescription": mapped_dep_desc,
+                    "destinations": [
+                        {
+                            "destinationCode": mapped_dest_code,
+                            "destinationDescription": mapped_dest_desc
+                        }
+                    ]
+                }
+            ]
+        })
+      # end for
+
+
+      return jsonify(resp_list)
     # end def
 # end class
 
@@ -137,7 +256,82 @@ class MyCompProcApiDefault(Resource):
         sleep(BACKOFF_MS/1000)
       # end while
 
-      return jsonify({})
+      b2u_resp_dict = json.loads(b2u_resp)
+      b2u_resp_payload = json.loads(b2u_resp_dict.get(resp_payload, ""))
+
+      easycomego_resp_dict = json.loads(easycomego_resp)
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get(resp_payload, ""))
+
+      # {
+      #   "transportType": "",
+      #   "routes": [
+      #       {
+      #           "departureCode": "",
+      #           "departureDescription": "",
+      #           "destinations": [
+      #               {
+      #                   "destinationCode": "",
+      #                   "destinationDescription": ""
+      #               }
+      #           ]
+      #       }
+      #   ]
+      # }
+      
+      resp_list = []
+
+      # BUS2U TRANSFORMATION
+      for route in b2u_resp_payload:
+        mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
+        mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
+        mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
+        mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
+        mapped_trans_code = "ECOM-B1"
+        mapped_trans_desc = "BUS"
+        resp_list.append({
+            "transportType": mapped_trans_code,
+            "routes": [
+                {
+                    "departureCode": mapped_dep_code,
+                    "departureDescription": mapped_dep_desc,
+                    "destinations": [
+                        {
+                            "destinationCode": mapped_dest_code,
+                            "destinationDescription": mapped_dest_desc
+                        }
+                    ]
+                }
+            ]
+        })
+      # end for
+
+      # EASYCOMEASYGO TRANSFORMATION
+      for route in b2u_resp_payload:
+        mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
+        mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
+        mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
+        mapped_dest_desc = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("desc", "")
+        mapped_trans_code = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("code", "")
+        mapped_trans_desc = TRANSTYPECODEMAP.get(route.get("transportCode", ""), "").get("desc", "")
+        resp_list.append({
+            "transportType": mapped_trans_code,
+            "routes": [
+                {
+                    "departureCode": mapped_dep_code,
+                    "departureDescription": mapped_dep_desc,
+                    "destinations": [
+                        {
+                            "destinationCode": mapped_dest_code,
+                            "destinationDescription": mapped_dest_desc
+                        }
+                    ]
+                }
+            ]
+        })
+      # end for
+
+
+      return jsonify(resp_list)
     # end def
 # end class
 
