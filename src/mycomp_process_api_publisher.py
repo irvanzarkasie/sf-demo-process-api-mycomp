@@ -179,7 +179,7 @@ class MyCompProcApi(Resource):
       # end for
 
       # EASYCOMEASYGO TRANSFORMATION
-      for route in b2u_resp_payload:
+      for route in easycomego_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
         mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
         mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
@@ -306,7 +306,7 @@ class MyCompProcApiDefault(Resource):
       # end for
 
       # EASYCOMEASYGO TRANSFORMATION
-      for route in b2u_resp_payload:
+      for route in easycomego_resp_payload:
         mapped_dep_code = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("code", "")
         mapped_dep_desc = DEPDESTCODEMAP.get(route.get("departureCode", ""), "").get("desc", "")
         mapped_dest_code = DEPDESTCODEMAP.get(route.get("destinationCode", ""), "").get("code", "")
