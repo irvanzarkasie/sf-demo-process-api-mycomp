@@ -61,15 +61,15 @@ class MyCompProcApi(Resource):
       curr_ts = int(datetime.now().timestamp() * 1000)
       b2u_corr_id = "{correlation_id}_B2U".format(correlation_id=correlation_id)
       easycomego_corr_id = "{correlation_id}_EASYCOMEGO".format(correlation_id=correlation_id)
-      b2u_resp = ""
-      easycomego_resp = ""
-      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp == "" and easycomego_resp == "":
+      b2u_resp = None
+      easycomego_resp = None
+      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp is None and easycomego_resp is None:
         print("Polling response from backend...")
 
-        if b2u_resp == "":
+        if b2u_resp is None:
           b2u_resp = r.get(b2u_corr_id)
         # end if
-        if easycomego_resp == "":
+        if easycomego_resp is None:
           easycomego_resp = r.get(easycomego_corr_id)
         # end if
 
@@ -77,7 +77,7 @@ class MyCompProcApi(Resource):
         print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
 
         # Eagerly exit poll if responses are already populated
-        if b2u_resp == "" and easycomego_resp == "":
+        if b2u_resp is not None and easycomego_resp is not None:
           break
         # end if
 
@@ -113,15 +113,15 @@ class MyCompProcApiDefault(Resource):
       curr_ts = int(datetime.now().timestamp() * 1000)
       b2u_corr_id = "{correlation_id}_B2U".format(correlation_id=correlation_id)
       easycomego_corr_id = "{correlation_id}_EASYCOMEGO".format(correlation_id=correlation_id)
-      b2u_resp = ""
-      easycomego_resp = ""
-      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp == "" and easycomego_resp == "":
+      b2u_resp = None
+      easycomego_resp = None
+      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp is None and easycomego_resp is None:
         print("Polling response from backend...")
 
-        if b2u_resp == "":
+        if b2u_resp is None:
           b2u_resp = r.get(b2u_corr_id)
         # end if
-        if easycomego_resp == "":
+        if easycomego_resp is None:
           easycomego_resp = r.get(easycomego_corr_id)
         # end if
 
@@ -129,7 +129,7 @@ class MyCompProcApiDefault(Resource):
         print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
 
         # Eagerly exit poll if responses are already populated
-        if b2u_resp == "" and easycomego_resp == "":
+        if b2u_resp is not None and easycomego_resp is not None:
           break
         # end if
 
