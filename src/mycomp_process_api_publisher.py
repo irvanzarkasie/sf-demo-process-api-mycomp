@@ -107,44 +107,79 @@ class MyCompProcApi(Resource):
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
 
-      req_payload = {
-        "correlation_id": correlation_id,
+      b2u_corr_id = "B2U_{correlation_id}".format(correlation_id=correlation_id)
+      easycomego_corr_id = "EASYCOMEGO_{correlation_id}".format(correlation_id=correlation_id)
+
+      b2u_req_payload = {
+        "correlation_id": b2u_corr_id,
+        "msg_timestamp": msg_ts,
+        "transport_code": transport_code,
+        "departure_code": departure_code,
+        "destination_code": destination_code 
+      }
+      easy_req_payload = {
+        "correlation_id": easycomego_corr_id,
         "msg_timestamp": msg_ts,
         "transport_code": transport_code,
         "departure_code": departure_code,
         "destination_code": destination_code 
       }
 
-      print(json.dumps(req_payload))
-      r.publish(COMM_CHANNEL, json.dumps(req_payload))
+      if transport_type == "ECOM-B1":
+        r.publish(COMM_CHANNEL, json.dumps(b2u_req_payload))
+      # end if
+      r.publish(COMM_CHANNEL, json.dumps(easy_req_payload))
 
-      # Poll response from backend
-      curr_ts = int(datetime.now().timestamp() * 1000)
-      b2u_corr_id = "{correlation_id}_B2U".format(correlation_id=correlation_id)
-      easycomego_corr_id = "{correlation_id}_EASYCOMEGO".format(correlation_id=correlation_id)
-      b2u_resp = None
-      easycomego_resp = None
-      while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp is None and easycomego_resp is None:
-        #print("Polling response from backend...")
+      if transport_type == "ECOM-B1":
+        # Poll response from backend
+        curr_ts = int(datetime.now().timestamp() * 1000)
+        b2u_resp = None
+        easycomego_resp = None
+        while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp is None and easycomego_resp is None:
+          #print("Polling response from backend...")
 
-        if b2u_resp is None:
-          b2u_resp = r.get(b2u_corr_id)
-        # end if
-        if easycomego_resp is None:
-          easycomego_resp = r.get(easycomego_corr_id)
-        # end if
+          if b2u_resp is None:
+            b2u_resp = r.get(b2u_corr_id)
+          # end if
+          if easycomego_resp is None:
+            easycomego_resp = r.get(easycomego_corr_id)
+          # end if
 
-        print("BUS2U Response: {b2u_resp}".format(b2u_resp=b2u_resp))
-        print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
+          print("BUS2U Response: {b2u_resp}".format(b2u_resp=b2u_resp))
+          print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
 
-        # Eagerly exit poll if responses are already populated
-        if b2u_resp is not None and easycomego_resp is not None:
-          break
-        # end if
+          # Eagerly exit poll if responses are already populated
+          if b2u_resp is not None and easycomego_resp is not None:
+            break
+          # end if
 
-        # Backoff before polling again
-        sleep(BACKOFF_MS/1000)
-      # end while
+          # Backoff before polling again
+          sleep(BACKOFF_MS/1000)
+        # end while
+      # end if
+      else:
+        # Poll response from backend
+        curr_ts = int(datetime.now().timestamp() * 1000)
+        b2u_resp = []
+        easycomego_resp = None
+        while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and easycomego_resp is None:
+          #print("Polling response from backend...")
+
+          if easycomego_resp is None:
+            easycomego_resp = r.get(easycomego_corr_id)
+          # end if
+
+          print("EASYCOMEEASYGO Response: {easycomego_resp}".format(easycomego_resp=easycomego_resp))
+
+          # Eagerly exit poll if responses are already populated
+          if easycomego_resp is not None:
+            break
+          # end if
+
+          # Backoff before polling again
+          sleep(BACKOFF_MS/1000)
+        # end while
+      # end else
 
       b2u_resp_dict = json.loads(b2u_resp)
       b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", ""))
@@ -235,16 +270,26 @@ class MyCompProcApiDefault(Resource):
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
 
-      req_payload = {
-        "correlation_id": correlation_id,
+      b2u_corr_id = "B2U_{correlation_id}".format(correlation_id=correlation_id)
+      easycomego_corr_id = "EASYCOMEGO_{correlation_id}".format(correlation_id=correlation_id)
+
+      b2u_req_payload = {
+        "correlation_id": b2u_corr_id,
         "msg_timestamp": msg_ts,
-        "transport_type": "",
+        "transport_code": transport_code,
+        "departure_code": departure_code,
+        "destination_code": destination_code 
+      }
+      easy_req_payload = {
+        "correlation_id": easycomego_corr_id,
+        "msg_timestamp": msg_ts,
+        "transport_code": transport_code,
         "departure_code": departure_code,
         "destination_code": destination_code 
       }
 
-      print(json.dumps(req_payload))
-      r.publish(COMM_CHANNEL, json.dumps(req_payload))
+      r.publish(COMM_CHANNEL, json.dumps(b2u_req_payload))
+      r.publish(COMM_CHANNEL, json.dumps(easy_req_payload))
 
       # Poll response from backend
       curr_ts = int(datetime.now().timestamp() * 1000)
