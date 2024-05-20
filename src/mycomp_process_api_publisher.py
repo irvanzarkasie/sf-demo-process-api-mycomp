@@ -42,7 +42,7 @@ DEPDESTCODEMAP = {
   "MY-01": {
     "code": "PRTKLG-MY",
     "desc": "Port Klang Malaysia"
-  }
+  },
   "MY-02": {
     "code": "BUKL-MY",
     "desc": "Bandar Utama KL Malaysia"
