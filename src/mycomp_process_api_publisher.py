@@ -160,7 +160,7 @@ class MyCompProcApi(Resource):
       else:
         # Poll response from backend
         curr_ts = int(datetime.now().timestamp() * 1000)
-        b2u_resp = []
+        b2u_resp = "[]"
         easycomego_resp = None
         while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and easycomego_resp is None:
           #print("Polling response from backend...")
