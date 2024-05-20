@@ -130,10 +130,10 @@ class MyCompProcApi(Resource):
       # end while
 
       b2u_resp_dict = json.loads(b2u_resp)
-      b2u_resp_payload = json.loads(b2u_resp_dict.get(resp_payload, ""))
+      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", ""))
 
       easycomego_resp_dict = json.loads(easycomego_resp)
-      easycomego_resp_payload = json.loads(easycomego_resp_dict.get(resp_payload, ""))
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", ""))
 
       # {
       #   "transportType": "",
@@ -257,10 +257,10 @@ class MyCompProcApiDefault(Resource):
       # end while
 
       b2u_resp_dict = json.loads(b2u_resp)
-      b2u_resp_payload = json.loads(b2u_resp_dict.get(resp_payload, ""))
+      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", ""))
 
       easycomego_resp_dict = json.loads(easycomego_resp)
-      easycomego_resp_payload = json.loads(easycomego_resp_dict.get(resp_payload, ""))
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", ""))
 
       # {
       #   "transportType": "",
