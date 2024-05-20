@@ -62,7 +62,7 @@ for message in subchannel.listen():
             resp_payload = json.loads(resp.data.decode("utf-8"))
             resp_ts = int(datetime.now().timestamp())
 
-            store_corr_id = "{req_correlation_id}_{backendid}".format(req_correlation_id=req_corr_id, backendid=BACKENDID)
+            store_corr_id = "{req_correlation_id}".format(req_correlation_id=req_corr_id)
             store_payload = {
                 "correlation_id": store_corr_id,
                 "resp_payload": json.dumps(resp_payload),
