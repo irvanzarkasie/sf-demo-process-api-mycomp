@@ -41,6 +41,8 @@ for message in subchannel.listen():
         else:
             req_url = base_req_url
         # end else
+
+        print("BUS2U", req_url)
         resp = http.request("GET", req_url)
         resp_payload = json.loads(resp.data.decode("utf-8"))
         resp_ts = int(datetime.now().timestamp())
