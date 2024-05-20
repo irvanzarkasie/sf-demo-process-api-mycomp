@@ -88,10 +88,19 @@ TRANSTYPECODEMAP = {
    }
 }
 
+TRANSTYPECODEMAPREVERSE = {
+    "ECOM-B1": "9001",
+    "ECOM-SH": "9002",
+    "ECOM-VN": "9003",
+    "ECOM-MPV": "9004",
+    "ECOM-TAXI": "9005"
+}
+
 class MyCompProcApi(Resource):
     def get(self, transport_type):
       # Parse arguments
       args = request.args
+      transport_code = TRANSTYPECODEMAPREVERSE.get(transport_type, None)
       departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), None)
       destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), None)
 
@@ -101,7 +110,7 @@ class MyCompProcApi(Resource):
       req_payload = {
         "correlation_id": correlation_id,
         "msg_timestamp": msg_ts,
-        "transport_code": transport_type,
+        "transport_code": transport_code,
         "departure_code": departure_code,
         "destination_code": destination_code 
       }
