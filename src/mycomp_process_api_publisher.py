@@ -255,10 +255,17 @@ class MyCompProcApi(Resource):
         })
       # end for
 
-      resp_list = [
-        {"transportProvider": "T-001", "routes": easy_resp_list},
-        {"transportProvider": "T-002", "routes": b2u_resp_list},
-      ]
+      if transport_type == "ECOM-B1":
+        resp_list = [
+          {"transportProvider": "T-001", "routes": easy_resp_list},
+          {"transportProvider": "T-002", "routes": b2u_resp_list},
+        ]
+      # end if
+      else:
+        resp_list = [
+          {"transportProvider": "T-001", "routes": easy_resp_list}
+        ]
+      # end else
 
       return jsonify(resp_list)
     # end def
