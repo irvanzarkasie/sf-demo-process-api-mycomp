@@ -160,7 +160,7 @@ class MyCompProcApi(Resource):
       else:
         # Poll response from backend
         curr_ts = int(datetime.now().timestamp() * 1000)
-        b2u_resp = "[]"
+        b2u_resp = "{}"
         easycomego_resp = None
         while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and easycomego_resp is None:
           #print("Polling response from backend...")
@@ -182,10 +182,10 @@ class MyCompProcApi(Resource):
       # end else
 
       b2u_resp_dict = json.loads(b2u_resp)
-      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", ""))
+      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", "[]"))
 
       easycomego_resp_dict = json.loads(easycomego_resp)
-      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", ""))
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", "[]"))
 
       # {
       #   "transportType": "",
@@ -320,10 +320,10 @@ class MyCompProcApiDefault(Resource):
       # end while
 
       b2u_resp_dict = json.loads(b2u_resp)
-      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", ""))
+      b2u_resp_payload = json.loads(b2u_resp_dict.get("resp_payload", "[]"))
 
       easycomego_resp_dict = json.loads(easycomego_resp)
-      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", ""))
+      easycomego_resp_payload = json.loads(easycomego_resp_dict.get("resp_payload", "[]"))
 
       # {
       #   "transportType": "",
