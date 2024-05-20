@@ -100,9 +100,9 @@ class MyCompProcApi(Resource):
     def get(self, transport_type):
       # Parse arguments
       args = request.args
-      transport_code = TRANSTYPECODEMAPREVERSE.get(transport_type, None)
-      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), None)
-      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), None)
+      transport_code = TRANSTYPECODEMAPREVERSE.get(transport_type, "")
+      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), "")
+      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), "")
 
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
@@ -229,8 +229,8 @@ class MyCompProcApiDefault(Resource):
     def get(self):
       # Parse arguments
       args = request.args
-      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), None)
-      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), None)
+      departure_code = DEPDESTCODEMAPREVERSE.get(args.get("departureCode", ""), "")
+      destination_code = DEPDESTCODEMAPREVERSE.get(args.get("destinationCode", ""), "")
 
       correlation_id = datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4()).replace("-","")
       msg_ts = int(datetime.now().timestamp())
@@ -238,7 +238,7 @@ class MyCompProcApiDefault(Resource):
       req_payload = {
         "correlation_id": correlation_id,
         "msg_timestamp": msg_ts,
-        "transport_type": None,
+        "transport_type": "",
         "departure_code": departure_code,
         "destination_code": destination_code 
       }
