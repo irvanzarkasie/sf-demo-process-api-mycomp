@@ -30,13 +30,13 @@ for message in subchannel.listen():
 
         base_req_url = "http://168.119.225.15:35020/sys/b2u/booking/routes"
         if req_departure_code != "" and req_destination_code != "":
-            req_url = "{base_req_url}?departure_code={departure_code}&destination_code={destination_code}".format(base_req_url=base_req_url, departure_code=req_departure_code, destination_code=req_destination_code)
+            req_url = "{base_req_url}?departureCode={departure_code}&destinationCode={destination_code}".format(base_req_url=base_req_url, departure_code=req_departure_code, destination_code=req_destination_code)
         # end if
         elif req_departure_code != "" and req_destination_code == "":
-            req_url = "{base_req_url}?departure_code={departure_code}".format(base_req_url=base_req_url, departure_code=req_departure_code)
+            req_url = "{base_req_url}?departureCode={departure_code}".format(base_req_url=base_req_url, departure_code=req_departure_code)
         # end if
         elif req_departure_code == "" and req_destination_code != "":
-            req_url = "{base_req_url}?destination_code={destination_code}".format(base_req_url=base_req_url, destination_code=req_destination_code)
+            req_url = "{base_req_url}?destinationCode={destination_code}".format(base_req_url=base_req_url, destination_code=req_destination_code)
         # end if
         else:
             req_url = base_req_url

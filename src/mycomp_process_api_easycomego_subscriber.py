@@ -31,23 +31,23 @@ for message in subchannel.listen():
 
         base_req_url = "http://168.119.225.15:35010/sys/easycomeeasygo/booking"
         if req_transport_code != "" and req_departure_code != "" and req_destination_code != "":
-            req_url = "{base_req_url}/{transport_code}/routes?departure_code={departure_code}&destination_code={destination_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, departure_code=req_departure_code, destination_code=req_destination_code)
+            req_url = "{base_req_url}/{transport_code}/routes?departureCode={departure_code}&destinationCode={destination_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, departure_code=req_departure_code, destination_code=req_destination_code)
         # end if
         elif req_transport_code == "" and req_departure_code != "" and req_destination_code != "":
-            req_url = "{base_req_url}/routes?departure_code={departure_code}&destination_code={destination_code}".format(base_req_url=base_req_url, departure_code=req_departure_code, destination_code=req_destination_code)
+            req_url = "{base_req_url}/routes?departureCode={departure_code}&destinationCode={destination_code}".format(base_req_url=base_req_url, departure_code=req_departure_code, destination_code=req_destination_code)
         # end if
         elif req_transport_code != "" and req_departure_code != "" and req_destination_code == "":
-            req_url = "{base_req_url}/{transport_code}/routes?departure_code={departure_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, departure_code=req_departure_code)
+            req_url = "{base_req_url}/{transport_code}/routes?departureCode={departure_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, departure_code=req_departure_code)
         # end if
         elif req_transport_code != "" and req_departure_code == "" and req_destination_code != "":
-            req_url = "{base_req_url}/{transport_code}/routes?destination_code={destination_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, destination_code=req_destination_code)
+            req_url = "{base_req_url}/{transport_code}/routes?destinationCode={destination_code}".format(base_req_url=base_req_url, transport_code=req_transport_code, destination_code=req_destination_code)
         # end if
 
         elif req_transport_code == "" and req_departure_code == "" and req_destination_code != "":
-            req_url = "{base_req_url}/routes?destination_code={destination_code}".format(base_req_url=base_req_url, destination_code=req_destination_code)
+            req_url = "{base_req_url}/routes?destinationCode={destination_code}".format(base_req_url=base_req_url, destination_code=req_destination_code)
         # end if
         elif req_transport_code == "" and req_departure_code != "" and req_destination_code == "":
-            req_url = "{base_req_url}/routes?departure_code={departure_code}".format(base_req_url=base_req_url, departure_code=req_departure_code)
+            req_url = "{base_req_url}/routes?departureCode={departure_code}".format(base_req_url=base_req_url, departure_code=req_departure_code)
         # end if
         elif req_transport_code != "" and req_departure_code == "" and req_destination_code == "":
             req_url = "{base_req_url}/{transport_code}/routes".format(base_req_url=base_req_url, transport_code=req_transport_code)
