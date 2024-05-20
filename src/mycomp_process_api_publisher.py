@@ -99,6 +99,7 @@ class MyCompProcApi(Resource):
         "destination_code": destination_code 
       }
 
+      print(json.dumps(req_payload))
       r.publish(COMM_CHANNEL, json.dumps(req_payload))
 
       # Poll response from backend
@@ -108,7 +109,7 @@ class MyCompProcApi(Resource):
       b2u_resp = None
       easycomego_resp = None
       while int(datetime.now().timestamp() * 1000) - curr_ts <= WAIT_TIMEOUT and b2u_resp is None and easycomego_resp is None:
-        print("Polling response from backend...")
+        #print("Polling response from backend...")
 
         if b2u_resp is None:
           b2u_resp = r.get(b2u_corr_id)
@@ -226,6 +227,7 @@ class MyCompProcApiDefault(Resource):
         "destination_code": destination_code 
       }
 
+      print(json.dumps(req_payload))
       r.publish(COMM_CHANNEL, json.dumps(req_payload))
 
       # Poll response from backend
